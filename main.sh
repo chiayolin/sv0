@@ -9,6 +9,7 @@ cat ./data/msmtprc.txt > ~/.msmtprc
 cat ./data/mailrc.txt > ~/.mailrc
 cat ./data/sendip > /etc/network/if-up.d/sendip 
 chmod 755 /etc/network/if-up.d/sendip 
+
 # Add a Linux user, test
 if [ $(id -u) -eq 0 ]; then
 username="test"
