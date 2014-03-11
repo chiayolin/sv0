@@ -1,0 +1,26 @@
+#! /bin/bash
+
+RPINAME="$HOSTNAME receive a new IP address"
+MAILTO="TARGET@gmail.com"
+if [ $# -eq 0 ]
+then
+IFC="wlan0"
+else
+IFC="$1"
+fi
+ifconfig $IFC &> /dev/null
+if [ $? -ne 0 ]
+then
+exit 1
+fi
+PRIVATE=$(ifconfig $IFC | grep "inet addr:" | awk '{ print $2 }')
+IPV6=$(ifconfig $IFC | grep "Scope:Global" | awk '{ print $3 }')
+PRIVATE=${PRIVATE:5}
+if [ -z $PRIVATE ]
+then
+exit 0
+fi
+PUBLIC=$(curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+MSG="$HOSTNAME  : $IFC\nLocal  addr   : $PRIVATE\nPublic addr   : $PUBLIC\n $IPV6\n$(date +%F\ %T)\nMay Force Be With You"
+echo -e $MSG | mail -s "$HOSTNAME Received an IP Address" "$MAILTO"
+exit 0

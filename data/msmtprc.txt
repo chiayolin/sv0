@@ -1,0 +1,14 @@
+#Gmail account
+defaults
+logfile ~/msmtp.log
+account gmail
+auth on
+host smtp.gmail.com
+from USERNAME@gmail.com
+auth on
+tls on
+tls_trust_file /usr/share/ca-certificates/mozilla/Equifax_Secure_CA.crt
+user USERNAME@gmail.com
+password PASSWORD_OF_THE_USER
+port 587
+account default : gmail
